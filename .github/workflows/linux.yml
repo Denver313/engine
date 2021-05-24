@@ -1,0 +1,30 @@
+name: Linux
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Install Dependencies
+      run: sudo apt-get update && sudo apt-get install libsdl2-dev --fix-missing && sudo apt-get install libsdl2-image-dev --fix-missing
+
+    - name: Create Build Directory
+      run: mkdir build
+
+    - name: Run Cmake
+      working-directory: build
+      run: cmake ..
+
+    - name: Run Build
+      working-directory: build
+      run: make
